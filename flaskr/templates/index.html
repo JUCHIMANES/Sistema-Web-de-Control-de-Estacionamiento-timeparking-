@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Timeparking</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="/static/icon-192.png" />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .hero-section {
+        position: relative;
+        background: url("https://images.pexels.com/photos/5075095/pexels-photo-5075095.jpeg")
+          no-repeat center center;
+        background-size: cover;
+        color: white;
+        text-align: center;
+        padding-right: 15px;
+        padding-left: 15px;
+        padding-bottom: 80px;
+        z-index: 1;
+      }
+
+      .hero-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: -1;
+      }
+
+      .feature-card {
+        text-align: center;
+        padding: 20px;
+      }
+      .feature-card img {
+        max-width: 100%;
+        height: auto;
+      }
+      .footer {
+        background-color: #343a40;
+        color: white;
+        text-align: center;
+        padding: 1rem 0;
+      }
+      .navbar {
+        background-color: #ffffffee;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .fixed-top {
+        position: sticky !important;
+        top: 0 !important;
+      }
+
+      .map-container {
+        position: relative;
+        width: 90%;
+        margin: 0 auto;
+        margin-bottom: 50px;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        border-radius: 1rem;
+      }
+
+      .map-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        border-radius: 1rem;
+      }
+      /* Estilo del Logo */
+      .navbar-brand-custom {
+        font-family: 'Righteous', sans-serif;
+        font-size: 1.6rem;
+        letter-spacing: 1px;
+        color: #1477d4 !important; /* El azul de Bootstrap */
+        transition: color 0.3s ease;
+      }
+      .navbar-brand-custom i {
+        font-size: 1.4rem;
+        vertical-align: middle;
+      }
+      .iniciarbtn:hover, .registrarsebtn:hover, .manualbtn:hover {
+        color: white !important;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container-fluid px-4">
+    <!-- Logo con fuente tipo logo -->
+    <a class="navbar-brand navbar-brand-custom d-flex align-items-center" href="#">
+      <div class="position-relative me-3">
+        <i class="bi bi-car-front-fill" style="font-size: 1.8rem;"></i>
+        <i class="bi bi-clock-fill position-absolute" 
+          style="font-size: 0.9rem; bottom: -2px; right: -5px; color: #1c3455; background: white; border-radius: 50%;"></i>
+      </div>
+      <span>Timeparking</span>
+    </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarOptions"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navbarOptions"
+        >
+          <ul class="navbar-nav mb-2 mb-lg-0">
+
+            <li class="nav-item">
+              <a
+              class="nav-link btn btn-outline-primary me-2 manualbtn"
+              href="/static/manuales/usuariodos.pdf"
+              target="_blank"
+              >
+              <i class="bi bi-book me-2"></i> Manual de Usuario
+              </a>
+            </li>
+            
+            <li class="nav-item">
+              <a
+                class="nav-link btn btn-outline-primary me-2 iniciarbtn"
+                href="/auth/login"
+                >Iniciar Sesión</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link btn btn-primary registrarsebtn" href="/auth/register"
+                >Registrarse</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <header class="hero-section pt-4">
+      <div class="container" style="margin-top:2.5rem;">
+        <h1 class="display-5 fw-bold">Reserva tu Estacionamiento Fácilmente</h1>
+        <p class="lead">
+          Obtén tu código de acceso y paga desde aquí. ¡Es rápido!
+        </p>
+        <a href="/home" class="btn btn-light btn-lg">Reservar Ahora</a>
+      </div>
+    </header>
+
+    <section class="container my-4">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card feature-card">
+            <div class="card-body">
+              <p class="card-text">Comodidad</p>
+              <h5 class="card-title">Reserva en Línea</h5>
+              <p class="card-text">
+                Reserva tu lugar de estacionamiento desde la comodidad de tu
+                hogar.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card">
+            <div class="card-body">
+              <p class="card-text">Seguridad</p>
+              <h5 class="card-title">Pago Seguro</h5>
+              <p class="card-text">
+                Realiza pagos de manera segura directamente.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card">
+            <div class="card-body">
+              <p class="card-text">Velocidad</p>
+              <h5 class="card-title">Acceso Rápido</h5>
+              <p class="card-text">
+                Utiliza tu código único para entrar y salir sin demoras.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container my-5">
+      <h3 class="text-center mb-4">Ubicación del Estacionamiento</h3>
+      <div class="map-container">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d236.80370151898848!2d-93.2229690038135!3d18.262273926432226!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85ee8fbdb7072989%3A0x3e9bab974a2d277e!2sESTACIONAMIENTO%20LERDO!5e0!3m2!1sen!2smx!4v1744473466682!5m2!1sen!2smx"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2026 Timeparking. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/sw.js")
+          .then(() => console.log("Service Worker registrado"))
+          .catch((err) => console.error("Error registrando SW:", err));
+      }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

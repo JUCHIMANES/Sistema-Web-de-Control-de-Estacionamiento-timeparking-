@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Historial de Reservas</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <style>
+      .header {
+        background-color: rgba(255, 255, 255, 0.85);
+        padding: 1rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      }
+
+      .card-body p {
+        font-size: 0.95rem;
+      }
+
+      .badge {
+        font-size: 0.8rem;
+        padding: 0.4em 0.6em;
+      }
+      /* Estilo del Logo */
+      .navbar-brand-custom {
+        font-family: 'Righteous', sans-serif;
+        font-size: 1.3rem;
+        letter-spacing: 1px;
+        color: #1477d4 !important; /* El azul de Bootstrap */
+        transition: color 0.3s ease;
+      }
+      .navbar-brand-custom i {
+        font-size: 1.4rem;
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header d-flex justify-content-between align-items-center">
+      <a href="/home" class="btn btn-outline-primary btn-sm">
+        <i class="bi bi-arrow-left"></i> Volver
+      </a>
+      <a class="navbar-brand navbar-brand-custom d-flex align-items-center" href="#">
+        <div class="position-relative me-3">
+            <i class="bi bi-car-front-fill" style="font-size: 1.8rem;"></i>
+            <i class="bi bi-clock-fill position-absolute" 
+            style="font-size: 0.9rem; bottom: -2px; right: -5px; color: #1c3455; background: white; border-radius: 50%;"></i>
+        </div>
+        <span>Timeparking</span>
+        </a>
+    </header>
+
+    <div class="container my-5">
+      <h4 class="text-primary mb-4 text-center">Historial de Reservas</h4>
+
+      <div class="row g-3">
+        {% for r in reservations %}
+        <div class="col-12">
+          <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body">
+              <div
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+                <h6 class="mb-0">Reserva #{{ r.code }}</h6>
+                {% if r.status == 'Completada' %}
+                <span class="badge bg-success">Completada</span>
+                {% elif r.status == 'Pendiente' %}
+                <span class="badge bg-warning text-dark">Pendiente</span>
+                {% else %}
+                <span class="badge bg-secondary">{{ r.status }}</span>
+                {% endif %}
+              </div>
+              <p class="mb-1">
+                <i class="bi bi-calendar-event me-2"></i>
+                <strong>Fecha Reserva:</strong> {{ r.reservation_datetime }}
+              </p>
+              <p class="mb-1">
+                <i class="bi bi-clock me-2"></i>
+                <strong>Entrada:</strong> {{ r.entry_datetime }}
+              </p>
+              <p class="mb-1">
+                <i class="bi bi-clock me-2"></i>
+                <strong>Salida:</strong> {{ r.exit_datetime }}
+              </p>
+              <p class="mb-1">
+                <i class="bi bi-pin-map me-2"></i>
+                <strong>Espacio:</strong> {{ r.space }}
+              </p>
+              <p class="mb-0 text-primary fw-bold">
+                Costo: {{ r.get('cost', '$0.00') }}
+              </p>
+            </div>
+          </div>
+        </div>
+        {% else %}
+        <div class="col-12 text-center">
+          <p class="text-muted">No tienes reservas registradas.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="messageModal"
+      tabindex="-1"
+      aria-labelledby="messageModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div id="modalHeader" class="modal-header">
+            <h5 class="modal-title" id="messageModalLabel">Mensaje</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <ul class="mb-0">
+              {% for category, message in
+              get_flashed_messages(with_categories=true) %}
+              <li class="message-item" data-category="{{ category }}">
+                {{ message }}
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", function () {
+        const messages = document.querySelectorAll(".message-item");
+        if (messages.length > 0) {
+          const modalHeader = document.getElementById("modalHeader");
+          const modalTitle = document.getElementById("messageModalLabel");
+          let mainCategory = messages[0].dataset.category;
+
+          if (mainCategory === "success") {
+            modalHeader.classList.add("bg-success", "text-white");
+            modalTitle.textContent = "Éxito";
+          } else if (mainCategory === "error") {
+            modalHeader.classList.add("bg-danger", "text-white");
+            modalTitle.textContent = "Error";
+          } else {
+            modalHeader.classList.add("bg-secondary", "text-white");
+            modalTitle.textContent = "Mensaje";
+          }
+
+          const messageModal = new bootstrap.Modal(
+            document.getElementById("messageModal")
+          );
+          messageModal.show();
+        }
+      });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
